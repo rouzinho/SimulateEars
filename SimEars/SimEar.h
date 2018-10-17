@@ -95,10 +95,11 @@ private:
   std::vector<unsigned int> mGaussMatrixSizes;
   std::vector<double> mGaussMatrixSigmas;
   std::vector<double> mGaussMatrixCenters;
-  cedar::aux::StringParameterPtr mTopic;
-  cedar::aux::DoubleParameterPtr mValidate;
+  cedar::aux::DoubleParameterPtr mLevel;
   int i;
   double dat;
+  double activatedLeft;
+  double activatedRight;
 
   //--------------------------------------------------------------------------------------------------------------------
   // parameters

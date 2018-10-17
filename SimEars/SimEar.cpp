@@ -48,23 +48,20 @@
 SimEar::SimEar()
 :
 cedar::proc::Step(true),
-mOutput(new cedar::aux::MatData(cv::Mat::zeros(50, 50, CV_32F))),
-mTopic(new cedar::aux::StringParameter(this, "Topic Name", "")),
-mValidate(new cedar::aux::DoubleParameter(this,"Motor Pos",25))
+mOutput(new cedar::aux::MatData(cv::Mat::zeros(1, 50, CV_32F))),
+mLevel(new cedar::aux::DoubleParameter(this,"Motor Pos",25))
 {
 this->declareOutput("demo_output", mOutput);
+this->declareInput("motorLeft", true);
+this->declareInput("motorRight",true);
 
 mGaussMatrixSizes.push_back(50);
-
 mGaussMatrixSigmas.push_back(3.0);
-
 mGaussMatrixCenters.push_back(25.0);
 //init the variable that will get the sensor value
 dat = 0;
 
-this->connect(this->mValidate.get(), SIGNAL(valueChanged()), this, SLOT(reCompute()));
-this->connect(this->mTopic.get(), SIGNAL(valueChanged()), this, SLOT(reName()));
-
+this->connect(this->mLevel.get(), SIGNAL(valueChanged()), this, SLOT(reCompute()));
 
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -73,16 +70,27 @@ this->connect(this->mTopic.get(), SIGNAL(valueChanged()), this, SLOT(reName()));
 void SimEar::compute(const cedar::proc::Arguments&)
 {
 
-
-  //change the Gaussian function with the value of the ear sensor.
-  this->mOutput->setData(cedar::aux::math::gaussMatrix(1,mGaussMatrixSizes,dat,mGaussMatrixSigmas,mGaussMatrixCenters,true));
+   cedar::aux::ConstDataPtr op1 = this->getInputSlot("motorLeft")->getData();
+   cedar::aux::ConstDataPtr op2 = this->getInputSlot("motorRight")->getData();
+   cv::Mat doublepos = op1->getData<cv::Mat>();
+   cv::Mat doublepos2 = op2->getData<cv::Mat>();
+   float t1 = doublepos.at<float>(0);
+   float t2 = doublepos2.at<float>(0);
+   activatedLeft = static_cast<double> (t1);
+   activatedRight = static_cast<double> (t2);
+   activatedLeft = round(activatedLeft);
+   activatedRight = round(activatedRight);
+   std::cout<<"Left : "<<activatedLeft<<"/n";
+   std::cout<<"Right : "<<activatedRight<<"/n";
+   //change the Gaussian function with the value of the ear sensor.
+   //this->mOutput->setData(cedar::aux::math::gaussMatrix(1,mGaussMatrixSizes,dat,mGaussMatrixSigmas,mGaussMatrixCenters,true));
 
 
 }
 
 void SimEar::reCompute()
 {
-
+   dat = static_cast<double>(this->mLevel->getValue());
 }
 
 void SimEar::reset()
