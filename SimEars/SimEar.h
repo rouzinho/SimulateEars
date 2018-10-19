@@ -97,9 +97,12 @@ private:
   std::vector<double> mGaussMatrixCenters;
   cedar::aux::DoubleParameterPtr mLevel;
   int i;
+  float t1;
+  float t2;
   double dat;
   double activatedLeft;
   double activatedRight;
+  double sumActivation;
 
   //--------------------------------------------------------------------------------------------------------------------
   // parameters

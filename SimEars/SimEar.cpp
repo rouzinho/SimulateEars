@@ -74,14 +74,14 @@ void SimEar::compute(const cedar::proc::Arguments&)
    cedar::aux::ConstDataPtr op2 = this->getInputSlot("motorRight")->getData();
    cv::Mat doublepos = op1->getData<cv::Mat>();
    cv::Mat doublepos2 = op2->getData<cv::Mat>();
-   float t1 = doublepos.at<float>(0);
-   float t2 = doublepos2.at<float>(0);
+   t1 = doublepos.at<float>(0);
+   t2 = doublepos2.at<float>(0);
    activatedLeft = static_cast<double> (t1);
    activatedRight = static_cast<double> (t2);
    activatedLeft = round(activatedLeft);
    activatedRight = round(activatedRight);
-   std::cout<<"Left : "<<activatedLeft<<"/n";
-   std::cout<<"Right : "<<activatedRight<<"/n";
+   sumActivation = activatedLeft + activatedRight;
+   std::cout<<"Sum activation: "<<sumActivation<<"\n";
    //change the Gaussian function with the value of the ear sensor.
    //this->mOutput->setData(cedar::aux::math::gaussMatrix(1,mGaussMatrixSizes,dat,mGaussMatrixSigmas,mGaussMatrixCenters,true));
 
