@@ -81,9 +81,17 @@ void SimEar::compute(const cedar::proc::Arguments&)
    activatedLeft = round(activatedLeft);
    activatedRight = round(activatedRight);
    sumActivation = activatedLeft + activatedRight;
-   std::cout<<"Sum activation: "<<sumActivation<<"\n";
+   //positive activation lead to lowering inputs, negative one increase it.
+   if(sumActivation < 0)
+   {
+      dat = dat + 0.01;
+   }
+   if(sumActivation > 0)
+   {
+      dat = dat - 0.01;
+   }
    //change the Gaussian function with the value of the ear sensor.
-   //this->mOutput->setData(cedar::aux::math::gaussMatrix(1,mGaussMatrixSizes,dat,mGaussMatrixSigmas,mGaussMatrixCenters,true));
+   this->mOutput->setData(cedar::aux::math::gaussMatrix(1,mGaussMatrixSizes,dat,mGaussMatrixSigmas,mGaussMatrixCenters,true));
 
 
 }

@@ -43,7 +43,6 @@
 // FORWARD DECLARATIONS
 #include <cedar/auxiliaries/MatData.fwd.h>
 #include <cedar/auxiliaries/DoubleParameter.h>
-#include <cedar/auxiliaries/StringParameter.h>
 
 
 // SYSTEM INCLUDES
